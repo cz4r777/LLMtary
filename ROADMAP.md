@@ -2,6 +2,8 @@
 
 Phased ticket breakdown for the workstreams in [PLAN.md](PLAN.md). Millarty is the user-facing name of the `cz4r777/LLMtary` fork; the internal package stays `llmtary` for upstream-sync sanity. Tickets are ordered by dependency, not calendar.
 
+> The state machine and handover gates each ticket walks are defined in [docs/TICKET_WORKFLOW.md](docs/TICKET_WORKFLOW.md). The per-ticket file template is [docs/tickets/_template.md](docs/tickets/_template.md).
+
 ## Phase 0 — Fork scaffold (active)
 
 - [x] **P0-1** — Add `upstream` remote, confirm fork is in sync.
