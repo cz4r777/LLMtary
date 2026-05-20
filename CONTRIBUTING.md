@@ -1,6 +1,6 @@
-# Contributing to this fork
+# Contributing to Millarty
 
-This is `cz4r777/LLMtary`, a customization fork of [`chetstriker/LLMtary`](https://github.com/chetstriker/LLMtary). The fork tracks upstream and isolates custom work on feature branches so upstream syncs stay clean.
+**Millarty** is the user-facing name of this customization fork of [`chetstriker/LLMtary`](https://github.com/chetstriker/LLMtary). The repo lives at `cz4r777/LLMtary`. The internal package name, binary name, and Dart package identifier all stay `llmtary` so we can keep pulling upstream cleanly — Millarty is delivered through a branding/theme layer plus a `kAppDisplayName` constant (see WS3 in [PLAN.md](PLAN.md)). The fork tracks upstream and isolates custom work on feature branches so upstream syncs stay clean.
 
 ## Branch model
 

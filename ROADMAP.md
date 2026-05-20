@@ -1,6 +1,6 @@
-# LLMtary Fork — Roadmap
+# Millarty — Roadmap
 
-Phased ticket breakdown for the workstreams in [PLAN.md](PLAN.md). Tickets are ordered by dependency, not calendar.
+Phased ticket breakdown for the workstreams in [PLAN.md](PLAN.md). Millarty is the user-facing name of the `cz4r777/LLMtary` fork; the internal package stays `llmtary` for upstream-sync sanity. Tickets are ordered by dependency, not calendar.
 
 ## Phase 0 — Fork scaffold (active)
 
@@ -30,7 +30,7 @@ Phased ticket breakdown for the workstreams in [PLAN.md](PLAN.md). Tickets are o
 - [ ] **B3-1** — Define theme tokens (color palette, fonts, logo path) in `assets/branding/theme.yaml`.
 - [ ] **B3-2** — Extract report HTML/CSS into templates under `assets/branding/templates/`; refactor `report_generator.dart` to consume them.
 - [ ] **B3-3** — Add `--branding=<dir>` CLI flag + GUI dropdown to swap branding bundle at runtime.
-- [ ] **B3-4** — Update window/app titles via a `kAppDisplayName` constant (not a global rename).
+- [ ] **B3-4** — Add `kAppDisplayName = "Millarty"` constant; route window/app titles through it. No global rename of `LLMtary` → `Millarty` in code.
 - [ ] **B3-5** — Optional: alternative installer artifact name (keeps upstream installer scripts intact).
 
 ## Phase 4 — WS4 New attack modules

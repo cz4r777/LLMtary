@@ -1,6 +1,7 @@
-# LLMtary Fork — Upgrade & Customization Plan
+# Millarty — Upgrade & Customization Plan
 
-> Working plan for the `cz4r777/LLMtary` fork. Tracks upstream `chetstriker/LLMtary`; all custom work lives on feature branches so upstream syncs stay clean.
+> **Project name:** Millarty (customization fork of upstream LLMtary).
+> Working plan for the `cz4r777/LLMtary` fork shipped as Millarty. Tracks upstream `chetstriker/LLMtary`; all custom work lives on feature branches so upstream syncs stay clean. The "Millarty" name is applied via a branding/theme layer (WS3), **not** a global rename of `LLMtary` in code — that would destroy upstream rebase compatibility.
 
 ---
 
@@ -60,19 +61,19 @@ git push origin main
 - `dart run bin/llmtary_cli.dart --target 10.10.10.10 --rules ./rules.txt --out ./run/` produces the same SQLite DB and report files as a GUI run, with no Flutter window.
 - Builds and runs on Kali (Linux x64). Tested over SSH.
 
-### WS3 — Branding & reporting overhaul
+### WS3 — Branding & reporting overhaul (Millarty)
 
-**Goal:** reports look like ours, not stock LLMtary. App chrome reflects the fork identity.
+**Goal:** reports and app chrome present as **Millarty**, not stock LLMtary. The rename is delivered through a theme/assets layer + a single `kAppDisplayName = "Millarty"` constant — **not** a global string replace — so upstream rebases keep applying cleanly.
 
 **Touches**
 - [lib/services/report_generator.dart](lib/services/report_generator.dart) + [lib/services/report_content_service.dart](lib/services/report_content_service.dart) — template layer; pull header/footer/CSS from a customizable theme file.
 - New: `assets/branding/` — logo, color tokens, report HTML/CSS templates.
 - [pubspec.yaml](pubspec.yaml) — register branding assets.
-- App title / window title / installer metadata ([LLMtary_Win_Installer.ifp](LLMtary_Win_Installer.ifp), [.metadata](.metadata), [linux/](linux/), [macos/](macos/), [windows/](windows/) — search and replace requires care to not break upstream rebases).
+- App title / window title surfaced through a new `kAppDisplayName = "Millarty"` constant. Installer metadata ([LLMtary_Win_Installer.ifp](LLMtary_Win_Installer.ifp), [.metadata](.metadata), [linux/](linux/), [macos/](macos/), [windows/](windows/)) — touch only where the user-visible product name is rendered; leave the internal `llmtary` package name, binary name, and identifiers alone so installer/CI scripts inherited from upstream keep working.
 
 **Exit criteria**
-- Generated HTML report uses our branding by default; can be swapped via a single `--branding=path/to/dir` flag (CLI) or settings dialog (GUI).
-- App window/title reflect fork name without changing the executable name (so upstream installer scripts keep working).
+- Generated HTML report uses Millarty branding by default; can be swapped via a single `--branding=path/to/dir` flag (CLI) or settings dialog (GUI).
+- App window/title read "Millarty" without changing the executable name, package identifier, or installer artifact paths (so upstream installer scripts keep working).
 
 ### WS4 — New attack modules / prompts
 
@@ -99,7 +100,7 @@ git push origin main
 ## Risk & safety notes
 
 - **Upstream rebase pain.** Renaming files or refactoring services into a Session core (WS2) will conflict heavily on upstream rebases. Keep these changes in self-contained new files where possible, and only modify upstream files at well-defined seams.
-- **Branding diff sprawl.** Searching and replacing "LLMtary" everywhere will create huge diffs and break upstream merges. Prefer a theme/assets layer over global rename.
+- **Branding diff sprawl.** Searching and replacing "LLMtary" → "Millarty" everywhere will create huge diffs and break every upstream merge. **The user-visible name is "Millarty"; the internal package, binary, and identifier name stays `llmtary`.** All Millarty-isms ship via the theme/assets layer and a single display-name constant.
 - **Local-only mode must be the default for the Kali build.** A misconfigured cloud provider on a red-team engagement is an OPSEC failure. WS1 ships before WS2 leaves Kali.
 - **No commits to `main` from feature work.** Even a typo fix on a prompt goes through a `fix/` branch — keeps `git rev-list main...upstream/main` clean for sync checks.
 
