@@ -24,15 +24,18 @@ git fetch upstream
 
 ## Upstream sync ritual
 
-Run weekly or before starting new work:
+Run weekly or before starting new work. The `main` portion of the ritual is wrapped in a helper script — use it instead of retyping the four git commands.
 
 ```
-git fetch upstream
-git checkout main
-git merge --ff-only upstream/main
-git push origin main
+bash scripts/sync-upstream.sh
+```
 
-# rebase each active feat/* branch
+The helper fetches `upstream`, checks out `main`, fast-forwards from `upstream/main`, and pushes `origin/main`. It refuses to run on a dirty working tree, with a missing `origin` or `upstream` remote, or when a non-fast-forward sync would be required. See [scripts/sync-upstream.sh](scripts/sync-upstream.sh) for the full behaviour.
+
+Rebasing feature branches stays manual — the helper deliberately does not touch them:
+
+```
+# after sync-upstream.sh succeeds, rebase each active feat/* branch
 for b in feat/local-only-mode feat/kali-cli feat/branding feat/new-modules; do
   git checkout "$b" 2>/dev/null && git rebase main && git push --force-with-lease origin "$b"
 done
