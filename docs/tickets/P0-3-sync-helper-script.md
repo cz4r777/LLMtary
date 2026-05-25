@@ -2,7 +2,7 @@
 id: P0-3
 workstream: WS0 scaffold
 title: Add upstream sync helper script for fork maintenance
-state: coding
+state: review
 owner_supervisor: cz4r777
 owner_coder: claude-coder
 created: 2026-05-25
@@ -72,12 +72,12 @@ The main risk is encoding unsafe git behavior into the helper. The script must n
 - [x] Branch created: `feat/scaffold/P0-3-sync-helper-script`
 
 ### `coding → review` (Coder)
-- [ ] `flutter analyze --fatal-infos` clean
-- [ ] `flutter test` green
-- [ ] Cross-platform check done (at minimum Linux)
-- [ ] No unexpected outbound network destination
-- [ ] PR description references ticket id
-- [ ] Upstream-rebase impact section filled in PR template
+- [~] `flutter analyze --fatal-infos` clean — deferred to CI (`.github/workflows/ci.yml`); no Dart code touched in this diff
+- [~] `flutter test` green — deferred to CI; no Dart code touched in this diff
+- [x] Cross-platform check done — bash script, targeted at Kali/Linux; works under Git Bash on Windows; documented in script header
+- [x] No unexpected outbound network destination — script only runs `git fetch`/`git push` against already-configured remotes
+- [x] PR description references ticket id
+- [x] Upstream-rebase impact section filled in PR template
 
 ### `review → done` (Supervisor)
 - [ ] PR template checklist clean
