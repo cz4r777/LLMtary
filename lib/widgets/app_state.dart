@@ -41,6 +41,7 @@ class AppState extends ChangeNotifier {
   String? _adminPassword;
   String? _pendingCommand;
   bool _requireApproval = true;
+  bool _localOnlyMode = ConfigDefaults.localOnlyMode;
   bool _createDebugLog = false;
   IOSink? _debugLogSink;
   bool _hasResults = false;
@@ -75,6 +76,11 @@ class AppState extends ChangeNotifier {
   String? get adminPassword => _adminPassword;
   String? get pendingCommand => _pendingCommand;
   bool get requireApproval => _requireApproval;
+  /// Local-only mode: source of truth for whether the app may use cloud LLM
+  /// providers. Persisted via [SettingsKeys.localOnlyMode]. This getter is the
+  /// consumption seam later WS1 tickets (provider gating, UI toggle, network-
+  /// egress test) will read.
+  bool get localOnlyMode => _localOnlyMode;
   bool get createDebugLog => _createDebugLog;
   bool get hasResults => _hasResults;
   List<Target> get targets => _targets;
@@ -564,6 +570,12 @@ Raise confidence to HIGH for any finding where these credentials directly enable
     notifyListeners();
   }
 
+  void setLocalOnlyMode(bool value) {
+    _localOnlyMode = value;
+    DatabaseHelper.saveSetting(SettingsKeys.localOnlyMode, value.toString());
+    notifyListeners();
+  }
+
   Future<void> setCreateDebugLog(bool value) async {
     _createDebugLog = value;
     if (value) {
@@ -599,6 +611,12 @@ Raise confidence to HIGH for any finding where these credentials directly enable
     await loadLLMSettings();
     final approvalSetting = await DatabaseHelper.getSetting(SettingsKeys.requireApproval);
     _requireApproval = approvalSetting == null ? true : approvalSetting == 'true';
+    final localOnlySetting = await DatabaseHelper.getSetting(SettingsKeys.localOnlyMode);
+    // Absent value (older stored data) falls through to the ConfigDefaults
+    // default — preserves existing user experience per L1-1 acceptance criteria.
+    _localOnlyMode = localOnlySetting == null
+        ? ConfigDefaults.localOnlyMode
+        : localOnlySetting == 'true';
     final customPath = await DatabaseHelper.getSetting(SettingsKeys.storageBasePath);
     if (customPath != null && customPath.isNotEmpty) {
       StorageService.setCustomBasePath(customPath);
