@@ -28,6 +28,7 @@ class SettingsKeys {
   static const apiKey = 'apiKey';
   static const storageBasePath = 'storage_base_path';
   static const String maxIterations = 'maxIterations';
+  static const String localOnlyMode = 'local_only_mode';
 }
 
 /// Default configuration values.
@@ -36,4 +37,5 @@ class ConfigDefaults {
   static const int maxTokens = 8000;
   static const int timeoutSeconds = 300;
   static const int maxIterations = 25;
+  static const bool localOnlyMode = false;
 }
